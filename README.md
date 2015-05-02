@@ -45,6 +45,10 @@ The configuration file format is based on JSON as the following.
 }
 ```
 
+## Repository
+
+- [GitHub](https://github.com/cybergarage/go-xjson)
+
 ## References
 
 - [1] [JSON and Go][json-go]
