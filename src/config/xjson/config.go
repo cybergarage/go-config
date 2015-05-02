@@ -17,12 +17,12 @@ Config gets a setting value in the specified file by the given path like XPath.
 		t.Error(err)
 	}
 
-	name, err := config.GetStringByXPath("/organizer/name")
+	name, err := config.GetKeyStringByXPath("/organizer/name")
 	if err != nil {
 		t.Error(err)
 	}
 
-	age, err := config.GetStringByXPath("/organizer/age")
+	age, err := config.GetKeyStringByXPath("/organizer/age")
 	if err != nil {
 		t.Error(err)
 	}
