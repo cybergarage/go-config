@@ -1,8 +1,8 @@
-# go-xjson
+# go-json-path
 
-go-xjson is a utility library to access JSON based configuration easily. Go lang supports JSON format, but the decode is a bother to prepare the JSON structures [[1]][json-go][[2]][encoding-json].
+go-json-path is a utility library to access JSON based configuration easily. Go lang supports JSON format, but the decode is a bother to prepare the JSON structures [[1]][json-go][[2]][encoding-json].
 
-Using go-xjson, you can get configuration values in the specified JSON file or string by the given path like XPath. The example is bellow.
+Using go-json-path, you can get configuration values in the specified JSON file or string by the given path like XPath. The example is bellow.
 
 ```
 import (
@@ -47,7 +47,7 @@ The configuration file format is based on JSON as the following.
 
 ## Repository
 
-- [GitHub](https://github.com/cybergarage/go-xjson)
+- [GitHub](https://github.com/cybergarage/go-json-path)
 
 ## References
 

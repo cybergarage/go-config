@@ -40,7 +40,7 @@ The configuration file fomat is based on JSON as the following.
 		}
 	}
 */
-package xjson
+package jpath
 
 import (
 	"bytes"
