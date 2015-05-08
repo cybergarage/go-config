@@ -1,12 +1,12 @@
 # go-json-path
 
-go-json-path is a utility library to access JSON based configuration easily. Go lang supports JSON format, but the decode is a bother to prepare the JSON structures [[1]][json-go][[2]][encoding-json].
+go-json-path is a utility library to access JSON based configuration easily. Go language supports JSON format in the standard library. However, I feel that the standard library is not useful to parse any JSON formats [\[1\]][json-go] [\[2\]][encoding-json].
 
-Using go-json-path, you can get configuration values in the specified JSON file or string by the given path like XPath. The example is bellow.
+For that reason, I have developed the open source package to access JSON based configuration easily. Using go-json-path, you can get configuration values in the specified JSON file or string by the given path like XPath. The example is bellow.
 
 ```
 import (
-	"config/xjson"
+	"config/jpath"
 )
 
 config, err := xjson.NewConfig()
@@ -49,10 +49,18 @@ The configuration file format is based on JSON as the following.
 
 - [GitHub](https://github.com/cybergarage/go-json-path)
 
+## Documents
+
+Please check the godoc of `config/jpath` as the following.
+
+```
+godoc -http=:6060
+```
+
 ## References
 
-- [1] [JSON and Go][json-go]
-- [2] [encoding/json][encoding-json]
+- \[1\] [JSON and Go][json-go]
+- \[2\] [encoding/json][encoding-json]
 
 [json-go]: http://blog.golang.org/json-and-go
 [encoding-json]: http://golang.org/pkg/encoding/json/
