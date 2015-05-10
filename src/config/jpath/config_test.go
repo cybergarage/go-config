@@ -46,7 +46,7 @@ func TestLoadingSimpleConfig(t *testing.T) {
 
 	// TEST_SIMPLE_KEY
 
-	keyValue, err := config.GetKeyStringByXPath(TEST_SIMPLE_KEY)
+	keyValue, err := config.GetKeyStringByPath(TEST_SIMPLE_KEY)
 	if err != nil {
 		t.Error(err)
 	}
@@ -75,7 +75,7 @@ func ParseConfigTest(t *testing.T, s string) {
 	// /organizer/name
 
 	xpath := TEST_KEY_ORGNIZER + "/" + TEST_KEY_NAME
-	keyValue, err := config.GetKeyStringByXPath(xpath)
+	keyValue, err := config.GetKeyStringByPath(xpath)
 	if err != nil {
 		t.Error(err)
 	}
@@ -91,7 +91,7 @@ func ParseConfigTest(t *testing.T, s string) {
 	// /organizer/age
 
 	xpath = TEST_KEY_ORGNIZER + "/" + TEST_KEY_AGE
-	keyValue, err = config.GetKeyStringByXPath(xpath)
+	keyValue, err = config.GetKeyStringByPath(xpath)
 	if err != nil {
 		t.Error(err)
 	}

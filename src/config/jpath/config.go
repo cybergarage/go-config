@@ -5,7 +5,7 @@
 /*
 Package config loads configuration files.
 
-Config gets a setting value in the specified file by the given path like XPath.
+Config gets a setting value in the specified file by the given path like Path.
 
 	config, err := NewConfig()
 	if err != nil {
@@ -17,12 +17,12 @@ Config gets a setting value in the specified file by the given path like XPath.
 		t.Error(err)
 	}
 
-	name, err := config.GetKeyStringByXPath("/organizer/name")
+	name, err := config.GetKeyStringByPath("/organizer/name")
 	if err != nil {
 		t.Error(err)
 	}
 
-	age, err := config.GetKeyStringByXPath("/organizer/age")
+	age, err := config.GetKeyStringByPath("/organizer/age")
 	if err != nil {
 		t.Error(err)
 	}
@@ -205,8 +205,8 @@ func (config *Config) GetKeyStringByPaths(paths []string) (string, error) {
 	return keyStr, nil
 }
 
-// GetObjectByXPath returns a key object by the given XPath.
-func (config *Config) GetKeyObjectByXPath(path string) (interface{}, error) {
+// GetObjectByPath returns a key object by the given Path.
+func (config *Config) GetKeyObjectByPath(path string) (interface{}, error) {
 	paths := strings.Split(path, PathSep)
 	if len(paths) <= 0 {
 		return "", errors.New(errorConfigKeyNull)
@@ -214,8 +214,8 @@ func (config *Config) GetKeyObjectByXPath(path string) (interface{}, error) {
 	return config.GetKeyObjectByPaths(paths)
 }
 
-// GetStringByXPath returns a key string by the given XPath.
-func (config *Config) GetKeyStringByXPath(path string) (string, error) {
+// GetStringByPath returns a key string by the given Path.
+func (config *Config) GetKeyStringByPath(path string) (string, error) {
 	paths := strings.Split(path, PathSep)
 	if len(paths) <= 0 {
 		return "", errors.New(errorConfigKeyNull)
