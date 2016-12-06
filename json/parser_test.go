@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package pointer
+package json
 
 import (
 	"errors"
@@ -25,7 +25,7 @@ const (
 		"}\n"
 )
 
-func TestLoadingSimpleConfig(t *testing.T) {
+func TestLoadingSimpleParser(t *testing.T) {
 
 	const TEST_SIMPLE_KEY = TEST_KEY_NAME
 	const TEST_SIMPLE_VAL = TEST_KEY_NAME_VALUE
@@ -34,19 +34,19 @@ func TestLoadingSimpleConfig(t *testing.T) {
 		"\"" + TEST_SIMPLE_KEY + "\": \"" + TEST_SIMPLE_VAL + "\"" +
 		"}"
 
-	config, err := NewConfig()
+	parser, err := NewParser()
 	if err != nil {
 		t.Error(err)
 	}
 
-	err = config.ParseFromString(TEST_CONFIG)
+	err = parser.ParseFromString(TEST_CONFIG)
 	if err != nil {
 		t.Error(err)
 	}
 
 	// TEST_SIMPLE_KEY
 
-	keyValue, err := config.GetKeyStringByPath(TEST_SIMPLE_KEY)
+	keyValue, err := parser.GetKeyStringByPath(TEST_SIMPLE_KEY)
 	if err != nil {
 		t.Error(err)
 	}
@@ -60,22 +60,12 @@ func TestLoadingSimpleConfig(t *testing.T) {
 	}
 }
 
-func ParseConfigTest(t *testing.T, s string) {
-
-	config, err := NewConfig()
-	if err != nil {
-		t.Error(err)
-	}
-
-	err = config.ParseFromString(s)
-	if err != nil {
-		t.Error(err)
-	}
+func CheckParserMembers(t *testing.T, parser *Parser) {
 
 	// /organizer/name
 
 	xpath := TEST_KEY_ORGNIZER + "/" + TEST_KEY_NAME
-	keyValue, err := config.GetKeyStringByPath(xpath)
+	keyValue, err := parser.GetKeyStringByPath(xpath)
 	if err != nil {
 		t.Error(err)
 	}
@@ -91,7 +81,7 @@ func ParseConfigTest(t *testing.T, s string) {
 	// /organizer/age
 
 	xpath = TEST_KEY_ORGNIZER + "/" + TEST_KEY_AGE
-	keyValue, err = config.GetKeyStringByPath(xpath)
+	keyValue, err = parser.GetKeyStringByPath(xpath)
 	if err != nil {
 		t.Error(err)
 	}
@@ -105,45 +95,21 @@ func ParseConfigTest(t *testing.T, s string) {
 	}
 }
 
-func TestLoadingConfig(t *testing.T) {
-	ParseConfigTest(t, TEST_CONFIG)
+func ParseParserTest(t *testing.T, s string) {
+
+	parser, err := NewParser()
+	if err != nil {
+		t.Error(err)
+	}
+
+	err = parser.ParseFromString(s)
+	if err != nil {
+		t.Error(err)
+	}
+
+	CheckParserMembers(t, parser)
 }
 
-func TestLoadingCommentedConfig(t *testing.T) {
-	TEST_COMMENTED_CONFIG :=
-		"####\n" +
-			TEST_CONFIG
-	ParseConfigTest(t, TEST_COMMENTED_CONFIG)
-
-	TEST_COMMENTED_CONFIG =
-		"####\n" +
-			"####\n" +
-			TEST_CONFIG
-	ParseConfigTest(t, TEST_COMMENTED_CONFIG)
-
-	TEST_COMMENTED_CONFIG =
-		" ####\n" +
-			TEST_CONFIG
-	ParseConfigTest(t, TEST_COMMENTED_CONFIG)
-}
-
-func TestLoadingBlankConfig(t *testing.T) {
-	TEST_COMMENTED_CONFIG :=
-		"\n" +
-			TEST_CONFIG
-	ParseConfigTest(t, TEST_COMMENTED_CONFIG)
-
-	TEST_COMMENTED_CONFIG =
-		"\n" +
-			"\n" +
-			TEST_CONFIG
-	ParseConfigTest(t, TEST_COMMENTED_CONFIG)
-}
-
-func TestLoadingCommentAndBlankConfig(t *testing.T) {
-	TEST_COMMENTED_CONFIG :=
-		"####\n" +
-			"\n" +
-			TEST_CONFIG
-	ParseConfigTest(t, TEST_COMMENTED_CONFIG)
+func TestLoadingParser(t *testing.T) {
+	ParseParserTest(t, TEST_CONFIG)
 }
