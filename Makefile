@@ -8,7 +8,7 @@
 #
 ###################################################################
 
-PRODUCT=json/pointer
+PRODUCT=json
 PRODUCT_DIR=./${PRODUCT}
 GITHUB=github.com/cybergarage/go-json-pointer
 
