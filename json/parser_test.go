@@ -25,7 +25,7 @@ const (
 		"}\n"
 )
 
-func TestLoadingSimplePointer(t *testing.T) {
+func TestLoadingSimpleParser(t *testing.T) {
 
 	const TEST_SIMPLE_KEY = TEST_KEY_NAME
 	const TEST_SIMPLE_VAL = TEST_KEY_NAME_VALUE
@@ -34,19 +34,19 @@ func TestLoadingSimplePointer(t *testing.T) {
 		"\"" + TEST_SIMPLE_KEY + "\": \"" + TEST_SIMPLE_VAL + "\"" +
 		"}"
 
-	pointer, err := NewPointer()
+	parser, err := NewParser()
 	if err != nil {
 		t.Error(err)
 	}
 
-	err = pointer.ParseFromString(TEST_CONFIG)
+	err = parser.ParseFromString(TEST_CONFIG)
 	if err != nil {
 		t.Error(err)
 	}
 
 	// TEST_SIMPLE_KEY
 
-	keyValue, err := pointer.GetKeyStringByPath(TEST_SIMPLE_KEY)
+	keyValue, err := parser.GetKeyStringByPath(TEST_SIMPLE_KEY)
 	if err != nil {
 		t.Error(err)
 	}
@@ -60,12 +60,12 @@ func TestLoadingSimplePointer(t *testing.T) {
 	}
 }
 
-func CheckPointerMembers(t *testing.T, pointer *Pointer) {
+func CheckParserMembers(t *testing.T, parser *Parser) {
 
 	// /organizer/name
 
 	xpath := TEST_KEY_ORGNIZER + "/" + TEST_KEY_NAME
-	keyValue, err := pointer.GetKeyStringByPath(xpath)
+	keyValue, err := parser.GetKeyStringByPath(xpath)
 	if err != nil {
 		t.Error(err)
 	}
@@ -81,7 +81,7 @@ func CheckPointerMembers(t *testing.T, pointer *Pointer) {
 	// /organizer/age
 
 	xpath = TEST_KEY_ORGNIZER + "/" + TEST_KEY_AGE
-	keyValue, err = pointer.GetKeyStringByPath(xpath)
+	keyValue, err = parser.GetKeyStringByPath(xpath)
 	if err != nil {
 		t.Error(err)
 	}
@@ -95,21 +95,21 @@ func CheckPointerMembers(t *testing.T, pointer *Pointer) {
 	}
 }
 
-func ParsePointerTest(t *testing.T, s string) {
+func ParseParserTest(t *testing.T, s string) {
 
-	pointer, err := NewPointer()
+	parser, err := NewParser()
 	if err != nil {
 		t.Error(err)
 	}
 
-	err = pointer.ParseFromString(s)
+	err = parser.ParseFromString(s)
 	if err != nil {
 		t.Error(err)
 	}
 
-	CheckPointerMembers(t, pointer)
+	CheckParserMembers(t, parser)
 }
 
-func TestLoadingPointer(t *testing.T) {
-	ParsePointerTest(t, TEST_CONFIG)
+func TestLoadingParser(t *testing.T) {
+	ParseParserTest(t, TEST_CONFIG)
 }

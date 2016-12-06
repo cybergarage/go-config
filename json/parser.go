@@ -3,26 +3,26 @@
 // license that can be found in the LICENSE file.
 
 /*
-The Pointer loads JSON files.
+The Parser loads JSON files.
 
-Pointer gets a setting value in the specified file by the given path like Path.
+Parser gets a setting value in the specified file by the given path like Path.
 
-	pointer, err := NewPointer()
+	parser, err := NewParser()
 	if err != nil {
 		t.Error(err)
 	}
 
-	err = pointer.ParseFromFile("/etc/profile.conf")
+	err = parser.ParseFromFile("/etc/profile.conf")
 	if err != nil {
 		t.Error(err)
 	}
 
-	name, err := pointer.GetKeyStringByPath("/organizer/name")
+	name, err := parser.GetKeyStringByPath("/organizer/name")
 	if err != nil {
 		t.Error(err)
 	}
 
-	age, err := pointer.GetKeyStringByPath("/organizer/age")
+	age, err := parser.GetKeyStringByPath("/organizer/age")
 	if err != nil {
 		t.Error(err)
 	}
@@ -59,40 +59,40 @@ const (
 	errorKeyTypeInvalid = "Key (%s) type is invalid"
 )
 
-type Pointer struct {
+type Parser struct {
 	FileName   string
 	rootObject interface{}
 }
 
-// NewPointer returns a new Pointer.
-func NewPointer() (*Pointer, error) {
-	pointer := &Pointer{}
-	return pointer, nil
+// NewParser returns a new Parser.
+func NewParser() (*Parser, error) {
+	parser := &Parser{}
+	return parser, nil
 }
 
-// NewPointerFromFile returns a new Pointer from the given file.
-func NewPointerFromFile(file string) (*Pointer, error) {
-	pointer := &Pointer{}
-	err := pointer.ParseFromFile(file)
+// NewParserFromFile returns a new Parser from the given file.
+func NewParserFromFile(file string) (*Parser, error) {
+	parser := &Parser{}
+	err := parser.ParseFromFile(file)
 	if err != nil {
 		return nil, err
 	}
-	return pointer, nil
+	return parser, nil
 }
 
-// NewPointerFromString returns a new Pointer from the given string.
-func NewPointerFromString(s string) (*Pointer, error) {
-	pointer := &Pointer{}
-	err := pointer.ParseFromString(s)
+// NewParserFromString returns a new Parser from the given string.
+func NewParserFromString(s string) (*Parser, error) {
+	parser := &Parser{}
+	err := parser.ParseFromString(s)
 	if err != nil {
 		return nil, err
 	}
-	return pointer, nil
+	return parser, nil
 }
 
 // ParseFromFile parses the given file.
-func (pointer *Pointer) ParseFromFile(file string) error {
-	pointer.FileName = file
+func (parser *Parser) ParseFromFile(file string) error {
+	parser.FileName = file
 
 	_, err := os.Stat(file)
 	if err != nil {
@@ -103,21 +103,21 @@ func (pointer *Pointer) ParseFromFile(file string) error {
 	if err != nil {
 		return err
 	}
-	return pointer.ParseFromString(string(sourceBytes))
+	return parser.ParseFromString(string(sourceBytes))
 }
 
 // ParseFromBytes parses the given bytes.
-func (pointer *Pointer) ParseFromBytes(source []byte) error {
-	return json.Unmarshal(source, &pointer.rootObject)
+func (parser *Parser) ParseFromBytes(source []byte) error {
+	return json.Unmarshal(source, &parser.rootObject)
 }
 
 // ParseFromString parses the given string.
-func (pointer *Pointer) ParseFromString(source string) error {
-	return pointer.ParseFromBytes([]byte(source))
+func (parser *Parser) ParseFromString(source string) error {
+	return parser.ParseFromBytes([]byte(source))
 }
 
 // getKeyObjectFromObject returns a object the given key.
-func (pointer *Pointer) getKeyObjectFromObject(key string, obj interface{}) (interface{}, error) {
+func (parser *Parser) getKeyObjectFromObject(key string, obj interface{}) (interface{}, error) {
 	switch obj.(type) {
 	case map[string]interface{}:
 		jsonDir, _ := obj.(map[string]interface{})
@@ -141,10 +141,10 @@ func (pointer *Pointer) getKeyObjectFromObject(key string, obj interface{}) (int
 }
 
 // GetKey returns a object the given paths.
-func (pointer *Pointer) getPathObjectFromObject(paths []string, rootObj interface{}) (interface{}, error) {
+func (parser *Parser) getPathObjectFromObject(paths []string, rootObj interface{}) (interface{}, error) {
 	obj := rootObj
 	for _, path := range paths {
-		keyObj, err := pointer.getKeyObjectFromObject(path, obj)
+		keyObj, err := parser.getKeyObjectFromObject(path, obj)
 		if err != nil {
 			return nil, err
 		}
@@ -155,10 +155,10 @@ func (pointer *Pointer) getPathObjectFromObject(paths []string, rootObj interfac
 }
 
 // GetKeyObjectByPaths returns a key object by the given paths.
-func (pointer *Pointer) GetKeyObjectByPaths(paths []string) (interface{}, error) {
+func (parser *Parser) GetKeyObjectByPaths(paths []string) (interface{}, error) {
 	var keyObj interface{} = nil
 
-	keyObj, err := pointer.getPathObjectFromObject(paths, pointer.rootObject)
+	keyObj, err := parser.getPathObjectFromObject(paths, parser.rootObject)
 	if err != nil {
 		return "", err
 	}
@@ -167,10 +167,10 @@ func (pointer *Pointer) GetKeyObjectByPaths(paths []string) (interface{}, error)
 }
 
 // GetStringByPaths returns a key string by the given paths.
-func (pointer *Pointer) GetKeyStringByPaths(paths []string) (string, error) {
+func (parser *Parser) GetKeyStringByPaths(paths []string) (string, error) {
 	keyStr := ""
 
-	keyObj, err := pointer.getPathObjectFromObject(paths, pointer.rootObject)
+	keyObj, err := parser.getPathObjectFromObject(paths, parser.rootObject)
 	if err != nil {
 		return "", err
 	}
@@ -189,19 +189,19 @@ func (pointer *Pointer) GetKeyStringByPaths(paths []string) (string, error) {
 }
 
 // GetObjectByPath returns a key object by the given Path.
-func (pointer *Pointer) GetKeyObjectByPath(path string) (interface{}, error) {
+func (parser *Parser) GetKeyObjectByPath(path string) (interface{}, error) {
 	paths := strings.Split(path, PathSep)
 	if len(paths) <= 0 {
 		return "", errors.New(errorKeyNull)
 	}
-	return pointer.GetKeyObjectByPaths(paths)
+	return parser.GetKeyObjectByPaths(paths)
 }
 
 // GetStringByPath returns a key string by the given Path.
-func (pointer *Pointer) GetKeyStringByPath(path string) (string, error) {
+func (parser *Parser) GetKeyStringByPath(path string) (string, error) {
 	paths := strings.Split(path, PathSep)
 	if len(paths) <= 0 {
 		return "", errors.New(errorKeyNull)
 	}
-	return pointer.GetKeyStringByPaths(paths)
+	return parser.GetKeyStringByPaths(paths)
 }

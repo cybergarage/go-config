@@ -18,7 +18,7 @@ func ParseConfigTest(t *testing.T, s string) {
 		t.Error(err)
 	}
 
-	CheckPointerMembers(t, &config.Pointer)
+	CheckParserMembers(t, &config.Parser)
 }
 
 func TestLoadingCommentedConfig(t *testing.T) {

@@ -52,7 +52,7 @@ const (
 )
 
 type Config struct {
-	Pointer
+	Parser
 }
 
 // NewConfig returns a new Config.
