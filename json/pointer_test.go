@@ -60,17 +60,7 @@ func TestLoadingSimplePointer(t *testing.T) {
 	}
 }
 
-func ParsePointerTest(t *testing.T, s string) {
-
-	pointer, err := NewPointer()
-	if err != nil {
-		t.Error(err)
-	}
-
-	err = pointer.ParseFromString(s)
-	if err != nil {
-		t.Error(err)
-	}
+func CheckPointerMembers(t *testing.T, pointer *Pointer) {
 
 	// /organizer/name
 
@@ -105,45 +95,21 @@ func ParsePointerTest(t *testing.T, s string) {
 	}
 }
 
+func ParsePointerTest(t *testing.T, s string) {
+
+	pointer, err := NewPointer()
+	if err != nil {
+		t.Error(err)
+	}
+
+	err = pointer.ParseFromString(s)
+	if err != nil {
+		t.Error(err)
+	}
+
+	CheckPointerMembers(t, pointer)
+}
+
 func TestLoadingPointer(t *testing.T) {
 	ParsePointerTest(t, TEST_CONFIG)
-}
-
-func TestLoadingCommentedPointer(t *testing.T) {
-	TEST_COMMENTED_CONFIG :=
-		"####\n" +
-			TEST_CONFIG
-	ParsePointerTest(t, TEST_COMMENTED_CONFIG)
-
-	TEST_COMMENTED_CONFIG =
-		"####\n" +
-			"####\n" +
-			TEST_CONFIG
-	ParsePointerTest(t, TEST_COMMENTED_CONFIG)
-
-	TEST_COMMENTED_CONFIG =
-		" ####\n" +
-			TEST_CONFIG
-	ParsePointerTest(t, TEST_COMMENTED_CONFIG)
-}
-
-func TestLoadingBlankPointer(t *testing.T) {
-	TEST_COMMENTED_CONFIG :=
-		"\n" +
-			TEST_CONFIG
-	ParsePointerTest(t, TEST_COMMENTED_CONFIG)
-
-	TEST_COMMENTED_CONFIG =
-		"\n" +
-			"\n" +
-			TEST_CONFIG
-	ParsePointerTest(t, TEST_COMMENTED_CONFIG)
-}
-
-func TestLoadingCommentAndBlankPointer(t *testing.T) {
-	TEST_COMMENTED_CONFIG :=
-		"####\n" +
-			"\n" +
-			TEST_CONFIG
-	ParsePointerTest(t, TEST_COMMENTED_CONFIG)
 }

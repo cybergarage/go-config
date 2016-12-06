@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 /*
-Package pointer loads JSON files.
+The Pointer loads JSON files.
 
 Pointer gets a setting value in the specified file by the given path like Path.
 
@@ -27,11 +27,7 @@ Pointer gets a setting value in the specified file by the given path like Path.
 		t.Error(err)
 	}
 
-The pointeruration file fomat is based on JSON as the following.
-
-	#
-	#  /etc/profile.conf
-	#
+The sample JSON is defined as the following.
 
 	{
 		"organizer": {
@@ -43,27 +39,24 @@ The pointeruration file fomat is based on JSON as the following.
 package json
 
 import (
-	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
-	"strings"
-	//	"reflect"
 	"strconv"
+	"strings"
 )
 
 const (
 	PathSep = "/"
 	LineSep = "\n"
-	Comment = "#"
 )
 
 const (
-	errorPointerKeyNull        = "Path is null"
-	errorPointerKeyNotFound    = "Key (%s) is not found"
-	errorPointerKeyTypeInvalid = "Key (%s) type is invalid"
+	errorKeyNull        = "Path is null"
+	errorKeyNotFound    = "Key (%s) is not found"
+	errorKeyTypeInvalid = "Key (%s) type is invalid"
 )
 
 type Pointer struct {
@@ -113,24 +106,14 @@ func (pointer *Pointer) ParseFromFile(file string) error {
 	return pointer.ParseFromString(string(sourceBytes))
 }
 
+// ParseFromBytes parses the given bytes.
+func (pointer *Pointer) ParseFromBytes(source []byte) error {
+	return json.Unmarshal(source, &pointer.rootObject)
+}
+
 // ParseFromString parses the given string.
 func (pointer *Pointer) ParseFromString(source string) error {
-	lines := strings.Split(source, LineSep)
-
-	// Strip comment and null lines
-	var strippedSource bytes.Buffer
-	for _, line := range lines {
-		if len(line) <= 0 {
-			continue
-		}
-		commentIdx := strings.Index(line, Comment)
-		if 0 <= commentIdx {
-			continue
-		}
-		strippedSource.WriteString(line + LineSep)
-	}
-
-	return json.Unmarshal(strippedSource.Bytes(), &pointer.rootObject)
+	return pointer.ParseFromBytes([]byte(source))
 }
 
 // getKeyObjectFromObject returns a object the given key.
@@ -140,7 +123,7 @@ func (pointer *Pointer) getKeyObjectFromObject(key string, obj interface{}) (int
 		jsonDir, _ := obj.(map[string]interface{})
 		keyObj, hasKey := jsonDir[key]
 		if !hasKey {
-			return "", errors.New(fmt.Sprintf(errorPointerKeyNotFound, key))
+			return "", errors.New(fmt.Sprintf(errorKeyNotFound, key))
 		}
 		//fmt.Println("%s = %s", key, reflect.TypeOf(keyObj))
 		switch keyObj.(type) {
@@ -151,7 +134,7 @@ func (pointer *Pointer) getKeyObjectFromObject(key string, obj interface{}) (int
 		case map[string]interface{}:
 			return keyObj, nil
 		default:
-			return "", errors.New(fmt.Sprintf(errorPointerKeyTypeInvalid, key))
+			return "", errors.New(fmt.Sprintf(errorKeyTypeInvalid, key))
 		}
 	}
 	return "", nil
@@ -199,7 +182,7 @@ func (pointer *Pointer) GetKeyStringByPaths(paths []string) (string, error) {
 		keyValue, _ := keyObj.(float64)
 		keyStr = strconv.FormatFloat(keyValue, 'g', -1, 64)
 	default:
-		return "", errors.New(fmt.Sprintf(errorPointerKeyTypeInvalid, (PathSep + strings.Join(paths, PathSep))))
+		return "", errors.New(fmt.Sprintf(errorKeyTypeInvalid, (PathSep + strings.Join(paths, PathSep))))
 	}
 
 	return keyStr, nil
@@ -209,7 +192,7 @@ func (pointer *Pointer) GetKeyStringByPaths(paths []string) (string, error) {
 func (pointer *Pointer) GetKeyObjectByPath(path string) (interface{}, error) {
 	paths := strings.Split(path, PathSep)
 	if len(paths) <= 0 {
-		return "", errors.New(errorPointerKeyNull)
+		return "", errors.New(errorKeyNull)
 	}
 	return pointer.GetKeyObjectByPaths(paths)
 }
@@ -218,7 +201,7 @@ func (pointer *Pointer) GetKeyObjectByPath(path string) (interface{}, error) {
 func (pointer *Pointer) GetKeyStringByPath(path string) (string, error) {
 	paths := strings.Split(path, PathSep)
 	if len(paths) <= 0 {
-		return "", errors.New(errorPointerKeyNull)
+		return "", errors.New(errorKeyNull)
 	}
 	return pointer.GetKeyStringByPaths(paths)
 }
