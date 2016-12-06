@@ -1,0 +1,7 @@
+2016-12-06 Satoshi Konno <skonno@cybergarage.org>
+    * v0.9
+    * Renamed 'config/jpath' to 'json/pointer'.
+
+2015-05-02 Satoshi Konno <skonno@cybergarage.org>
+    * v0.8
+    * The first release.
