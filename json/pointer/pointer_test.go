@@ -25,7 +25,7 @@ const (
 		"}\n"
 )
 
-func TestLoadingSimpleConfig(t *testing.T) {
+func TestLoadingSimplePointer(t *testing.T) {
 
 	const TEST_SIMPLE_KEY = TEST_KEY_NAME
 	const TEST_SIMPLE_VAL = TEST_KEY_NAME_VALUE
@@ -34,19 +34,19 @@ func TestLoadingSimpleConfig(t *testing.T) {
 		"\"" + TEST_SIMPLE_KEY + "\": \"" + TEST_SIMPLE_VAL + "\"" +
 		"}"
 
-	config, err := NewConfig()
+	pointer, err := NewPointer()
 	if err != nil {
 		t.Error(err)
 	}
 
-	err = config.ParseFromString(TEST_CONFIG)
+	err = pointer.ParseFromString(TEST_CONFIG)
 	if err != nil {
 		t.Error(err)
 	}
 
 	// TEST_SIMPLE_KEY
 
-	keyValue, err := config.GetKeyStringByPath(TEST_SIMPLE_KEY)
+	keyValue, err := pointer.GetKeyStringByPath(TEST_SIMPLE_KEY)
 	if err != nil {
 		t.Error(err)
 	}
@@ -60,14 +60,14 @@ func TestLoadingSimpleConfig(t *testing.T) {
 	}
 }
 
-func ParseConfigTest(t *testing.T, s string) {
+func ParsePointerTest(t *testing.T, s string) {
 
-	config, err := NewConfig()
+	pointer, err := NewPointer()
 	if err != nil {
 		t.Error(err)
 	}
 
-	err = config.ParseFromString(s)
+	err = pointer.ParseFromString(s)
 	if err != nil {
 		t.Error(err)
 	}
@@ -75,7 +75,7 @@ func ParseConfigTest(t *testing.T, s string) {
 	// /organizer/name
 
 	xpath := TEST_KEY_ORGNIZER + "/" + TEST_KEY_NAME
-	keyValue, err := config.GetKeyStringByPath(xpath)
+	keyValue, err := pointer.GetKeyStringByPath(xpath)
 	if err != nil {
 		t.Error(err)
 	}
@@ -91,7 +91,7 @@ func ParseConfigTest(t *testing.T, s string) {
 	// /organizer/age
 
 	xpath = TEST_KEY_ORGNIZER + "/" + TEST_KEY_AGE
-	keyValue, err = config.GetKeyStringByPath(xpath)
+	keyValue, err = pointer.GetKeyStringByPath(xpath)
 	if err != nil {
 		t.Error(err)
 	}
@@ -105,45 +105,45 @@ func ParseConfigTest(t *testing.T, s string) {
 	}
 }
 
-func TestLoadingConfig(t *testing.T) {
-	ParseConfigTest(t, TEST_CONFIG)
+func TestLoadingPointer(t *testing.T) {
+	ParsePointerTest(t, TEST_CONFIG)
 }
 
-func TestLoadingCommentedConfig(t *testing.T) {
+func TestLoadingCommentedPointer(t *testing.T) {
 	TEST_COMMENTED_CONFIG :=
 		"####\n" +
 			TEST_CONFIG
-	ParseConfigTest(t, TEST_COMMENTED_CONFIG)
+	ParsePointerTest(t, TEST_COMMENTED_CONFIG)
 
 	TEST_COMMENTED_CONFIG =
 		"####\n" +
 			"####\n" +
 			TEST_CONFIG
-	ParseConfigTest(t, TEST_COMMENTED_CONFIG)
+	ParsePointerTest(t, TEST_COMMENTED_CONFIG)
 
 	TEST_COMMENTED_CONFIG =
 		" ####\n" +
 			TEST_CONFIG
-	ParseConfigTest(t, TEST_COMMENTED_CONFIG)
+	ParsePointerTest(t, TEST_COMMENTED_CONFIG)
 }
 
-func TestLoadingBlankConfig(t *testing.T) {
+func TestLoadingBlankPointer(t *testing.T) {
 	TEST_COMMENTED_CONFIG :=
 		"\n" +
 			TEST_CONFIG
-	ParseConfigTest(t, TEST_COMMENTED_CONFIG)
+	ParsePointerTest(t, TEST_COMMENTED_CONFIG)
 
 	TEST_COMMENTED_CONFIG =
 		"\n" +
 			"\n" +
 			TEST_CONFIG
-	ParseConfigTest(t, TEST_COMMENTED_CONFIG)
+	ParsePointerTest(t, TEST_COMMENTED_CONFIG)
 }
 
-func TestLoadingCommentAndBlankConfig(t *testing.T) {
+func TestLoadingCommentAndBlankPointer(t *testing.T) {
 	TEST_COMMENTED_CONFIG :=
 		"####\n" +
 			"\n" +
 			TEST_CONFIG
-	ParseConfigTest(t, TEST_COMMENTED_CONFIG)
+	ParsePointerTest(t, TEST_COMMENTED_CONFIG)
 }
