@@ -40,7 +40,7 @@ The pointeruration file fomat is based on JSON as the following.
 		}
 	}
 */
-package pointer
+package json
 
 import (
 	"bytes"
