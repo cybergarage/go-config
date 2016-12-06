@@ -1,25 +1,29 @@
 # go-json-pointer
 
-go-json-pointer is a utility library to access JSON based configuration easily. Go language supports JSON format in the standard library. However, I feel that the standard library is not useful to parse any JSON formats [\[1\]][json-go] [\[2\]][encoding-json].
+go-json-pointer is a utility library to access JSON and JSON based configuration easily. Go language supports JSON format in the standard library. However, I feel that the standard library is not useful to parse any JSON formats [\[1\]][json-go] [\[2\]][encoding-json].
 
-For that reason, I have developed the open source package to access JSON based configuration easily. Using go-json-pointer, you can get configuration values in the specified JSON file or string by the given path like Path. The example is bellow.
+For that reason, I have developed the open source package to access JSON properties easily. Using go-json-pointer, you can get the JSON properties in the specified JSON file or string by the given path like XPath for XML specification.
+
+Finally, I will support RFC 6901, JSON Pointer, [\[3\]][json-pointer] specification.
+
+Using `Pointer`, you can read JSON easily as the following.
 
 ```
 import (
-	"json/pointer"
+	"github.com/cybergarage/json"
 )
 
-config, err := xjson.NewConfig()
+parser, err := json.NewParser()
 if err != nil {
 	t.Error(err)
 }
 
-err = config.ParseFromFile("/etc/profile.conf")
+err = parser.ParseFromFile("/etc/profile.conf")
 if err != nil {
 	t.Error(err)
 }
 
-name, err := config.GetKeyStringByPath("/organizer/name")
+name, err := parser.GetKeyStringByPath("/organizer/name")
 if err != nil {
 	t.Error(err)
 }
@@ -30,7 +34,7 @@ if err != nil {
 }
 ```
 
-The configuration file format is based on JSON as the following.
+Using `Config`, you can read a configuration based on JSON. The sample configuration is bellow.
 
 ```
 #
