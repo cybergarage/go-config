@@ -1,4 +1,4 @@
 #!/bin/sh
 export GOPATH=`pwd`
 export PATH=$PATH:$GOROOT/bin
-go get github.com/cybergarage/go-json-path/json/pointer
+go get github.com/cybergarage/go-json-pointer/json/pointer
