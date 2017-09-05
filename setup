@@ -1,4 +1,5 @@
 #!/bin/sh
 export GOPATH=`pwd`
 export PATH=$PATH:$GOROOT/bin
+git pull
 go get github.com/cybergarage/go-config/config
