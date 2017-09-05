@@ -1,6 +1,6 @@
 ###################################################################
 #
-# JSON Pointer for Go
+# Configuration Library for Go
 #
 # Copyright (C) Satoshi Konno 2015
 #
@@ -8,9 +8,9 @@
 #
 ###################################################################
 
-PRODUCT=json
+PRODUCT=config
 PRODUCT_DIR=./${PRODUCT}
-GITHUB=github.com/cybergarage/go-json-pointer
+GITHUB=github.com/cybergarage/go-config
 
 PACKAGES = ${GITHUB}/${PRODUCT}
 

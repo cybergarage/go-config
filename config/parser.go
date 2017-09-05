@@ -36,7 +36,7 @@ The sample JSON is defined as the following.
 		}
 	}
 */
-package json
+package config
 
 import (
 	"encoding/json"
